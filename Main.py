@@ -1,49 +1,65 @@
 class Node:
+  """
+  Class implementing node of the LinkedList
+  Attributes:
+    -> data - data held by the node
+    -> next - link to the next node
+  """
   def __init__(self, data):
     self.data = data
     self.next = None
 
 
-class Stack:
+class Queue:
+  """
+  Class implementing Queue as a LinkedList
+  """
   def __init__(self):
     self.head = None
+    self.tail = None
 
-  def push(self, data) -> None:
-    temp = Node(data)
-    if self.head == None:
-      self.head = temp
-      temp.next = None
-    else:
-      temp.next = self.head
-      self.head = temp
+  def enqueue(self, data) -> None:
+    """
+    Adds node containing data passed to the rear of the queue
+    """
+    new = Node(data)
+    if not self.tail is None:
+      self.tail.next = new
+    if self.head is None:
+      self.head = new
+    self.tail = new
 
-  def pop(self) -> None:
-    if self.head == None:
-      pass
-    else:
+  def dequeue(self) -> None:
+    """
+    Removes node from the rear of the queue
+    """
+    if not self.head is None:
       self.head = self.head.next
+      if self.head is None:
+        self.tail = None
 
-  def status(self):
+  def status(self) -> None:
     """
     It prints all the elements of stack.
     """
-    temp = self.head
-    while temp != None:
-      print(temp.data, "=>", sep = "", end = "")
-      temp = temp.next
-    print("None")
+    elements = ""
+    curr = self.head
+    while not curr is None:
+      elements += str(curr.data) + "=>"
+      curr = curr.next
+    print(elements + "None")
 
 
 # Do not change the following code
-stack = Stack()
+queue = Queue()
 operations = []
 for specific_operation in input().split(','):
     operations.append(specific_operation.strip())
 input_data = input()
 data = input_data.split(',')
 for i in range(len(operations)):
-  if operations[i] == "push":
-    stack.push(int(data[i]))
-  elif operations[i] == "pop":
-    stack.pop()
-stack.status()
+  if operations[i] == "enqueue":
+    queue.enqueue(int(data[i]))
+  elif operations[i] == "dequeue":
+    queue.dequeue()
+queue.status()
